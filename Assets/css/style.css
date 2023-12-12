@@ -72,7 +72,7 @@ header {
     text-align: center;
   }
   
-  main #starting_page #start_quiz_button {
+  main #starting_page #start_quiz {
     position: relative;
     left: 50%;
     transform: translate(-50%);
@@ -115,7 +115,7 @@ header {
     font-weight: 600;
   }
   
-  main #get_name_page #score_display {
+  main #get_name_page #score {
     font-weight: 600;
   }
   

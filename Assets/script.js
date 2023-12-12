@@ -1,21 +1,18 @@
 // Variables for elements in html
 var main = document.getElementsByTagName('main')[0]
-var viewHighscoreLink = document.getElementById('view_highscore_link')
+var viewHighscoreLink = document.getElementById('view_highscore')
 var timeDisplay = document.getElementById('time_display')
-var startQuizButton = document.getElementById('start_quiz_button')
+var startQuizButton = document.getElementById('start_quiz')
 var questionNumbersBox = document.getElementById('question_numbers_box')
 var questionDisplay = document.getElementById('question_display')
 var answersList = document.getElementById('answer_list')
 var answerFeedback = document.getElementById('feedback')
-var scoreDisplay = document.getElementById('score_display')
+var scoreDisplay = document.getElementById('score')
 var initialsInput = document.getElementById('initials_input')
 var submitInitialsButton = document.getElementById('submit_initials_button')
 var highscoreList = document.getElementById('highscore_list')
 var goToStartingPageButton = document.getElementById('go_to_starting_page_button')
 var clearHighscoresButton = document.getElementById('clear_highscores_button')
-
-
-
 
 // array of the questions and answers
 var questions = [ 
@@ -24,17 +21,17 @@ var questions = [
         'answers': ['quotes','parentheses','square brackets','curly brackets'],
         'correct_index': 1
     }, {
-        'question': 'Which program is used by web clients to view the web pages?',
+        'question': 'Which is used to view the web pages?',
         'answers': ['Web browser','Protocol','Web server','Search Engine'],
         'correct_index': 0
     }, {
-        'question': 'The ______ attribute is used to identify the values of variables.',
+        'question': 'Which attribute is used to identify the values of variables.',
         'answers': ['text','http-equiv','content','name'],
         'correct_index': 2
     }, {
         'question': 'Which tag is used to identify the keywords describing the site?',
-        'answers': ['Comment tag','Title tag','Meta tag','Anchor tag'],
-        'correct_index': 2
+        'answers': ['Meta Tag','Title tag','JS Tag','Anchor tag'],
+        'correct_index': 0
     }, {
         'question': 'Which are used with a tag to modify its function?',
         'answers': ['Files','Functions','Attributes','Documents'],
@@ -48,31 +45,29 @@ var questions = [
         'answers': ['body','html','head','table'],
         'correct_index': 0
     }, {
-        'question': 'What tag element will display a line across the screen?',
-        'answers': ['br','a','hr','line'],
+        'question': 'To link JS code to the HTML, where do we need to include the script element?',
+        'answers': ['In the CSS file','At the very beginning of the HTML code','Towards the end of the HTML','They are automatically linked'],
         'correct_index': 2
     }, {
         'question': 'This type of list will be listed in numeric order.',
         'answers': ['Unordered','Ordered','Definition','Straight line'],
         'correct_index': 1
     }, {
-        'question': 'This is a language used for styling a website.',
-        'answers': ['HTML','CSS','JSON','XML'],
-        'correct_index': 1
+        'question': 'This is a language used to provide interactivity on a website.',
+        'answers': ['HTML','CSS','JavaScript','XML'],
+        'correct_index': 2
     }
 ]
 
+// The variables for the time given and the tracking the score
+var startingTime = questions.length * 10 
+var timePenalty = 10 
+var remainingTime 
+var timer 
+var score 
 
-// score tracking variables
-var startingTime = questions.length * 8 // the amount of time that will be given the the user to answer all of the questions in seconds
-var timePenalty = 10 // the amount of time that will be given the the user to answer all of the questions in seconds
-var remainingTime // the amount of time left on the clock
-var timer // the interval timer
-var score // the number of correct questions
-
-/** Set up the pages and get the quiz ready. */
+//Adding the event lsteners to get the coding quiz started
 function init() {
-    // Add all of the event listeners
     startQuizButton.addEventListener('click', event => {
         event.preventDefault()
         displayQuestionPage()
@@ -142,10 +137,7 @@ function init() {
     displayStartingPage()
 };
 
-/** Hide all of the pages except for the one with given id.
- * 
- * @param {number} id the id of the page that should be displayed
- */
+
 function displayPage(id) {
     main.querySelectorAll('.page').forEach(page => {
         if (page.id == id) {
@@ -169,7 +161,7 @@ function displayStartingPage() {
 var nextQuestionIndex // The index of question currently being displayed to the user 
 var randomizedQuestions // A randomly sorted clone of the questions array
 
-/** Display the questions page. */
+// Display the questions page. 
 function displayQuestionPage() {
     displayPage('question_page')
 
@@ -177,7 +169,6 @@ function displayQuestionPage() {
     questionNumbersBox.innerHTML = ""
 
     for (let i = 0; i < questions.length; i++) {
-        const element = questions[i];
         var el = document.createElement('span')
         el.textContent = i + 1
         questionNumbersBox.appendChild(el)
@@ -227,7 +218,7 @@ function displayNextQuestion() {
     }
 }
 
-/** Display the get name page. */
+// Display the get name page. 
 function displayGetNamePage() {
     displayPage('get_name_page')
     if (remainingTime < 0) remainingTime = 0
@@ -235,7 +226,7 @@ function displayGetNamePage() {
     scoreDisplay.textContent = score
 }
 
-/** Display the highscore page. */
+// Shows the scores
 function displayHighscorePage() {
     displayPage('highscore_page')
     questionNumbersBox.innerHTML = ""
@@ -259,10 +250,7 @@ function displayHighscorePage() {
     }
 }
 
-/** Take any array and return a randomly sorted clone.
- * 
- * @param {array} array the array that will be cloned
- */
+
 function randomizeArray(array) {
     clone = [...array]
     output = []
@@ -276,8 +264,8 @@ function randomizeArray(array) {
     return output
 }
 
-/** Start the count down timer */
 
+//Timer begins and pulls in the converted time
 function startTimer() {
     remainingTime = startingTime
     timeDisplay.textContent = formatSeconds(remainingTime)
@@ -295,10 +283,7 @@ function startTimer() {
     }, 1000)
 }
 
-/** Convert a given number of seconds to a 'M:SS' format
- * 
- * @param {number} seconds 
- */
+//converts time
 function formatSeconds(seconds) {
     let m = Math.floor(seconds / 60).toString().padStart(2, ' ')
     let s = (seconds % 60).toString().padStart(2, '0')
